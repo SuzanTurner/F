@@ -23,15 +23,15 @@ uvicorn main:app --reload
 ```
 5. Open your browser or terminal and try:
 
-- `https://f-production-2a80.up.railway.app` → *Press F to pay respect*  
+- 'https://f-production-2a80.up.railway.app' → *Press F to pay respect*  
 - `https://f-production-2a80.up.railway.app/F` → *Respect sent to CRUD Lord*
 
 ### Example curl Commands
 
 ```bash
-curl http://127.0.0.1:8000/                # "Press F to pay respect"
-curl http://127.0.0.1:8000/F               # "Respect sent!"
-curl http://127.0.0.1:8000/anything_else   # "bro press F"
+curl https://f-production-2a80.up.railway.app                # "Press F to pay respect"
+curl https://f-production-2a80.up.railway.app/F             # "Respect sent!"
+curl https://f-production-2a80.up.railway.app/anything_else   # "bro press F"
 ```
 
 ## Author
