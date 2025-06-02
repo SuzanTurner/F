@@ -8,6 +8,10 @@ app = FastAPI()
 async def send_respect():
     return {"message": "Respect sent!"}
 
+@app.get("/f")
+async def send_respect():
+    return {"message": "Bro Press F! For RESPECT!"}
+
 @app.get("/")
 async def send_respect():
     return {"command": "Click PrettyPrint",
