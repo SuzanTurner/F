@@ -24,7 +24,7 @@ uvicorn main:app --reload
 5. Open your browser or terminal and try:
 
 - 'https://f-production-2a80.up.railway.app' → *Press F to pay respect*  
-- 'https://f-production-2a80.up.railway.app/F'` → *Respect sent to CRUD Lord*
+- 'https://f-production-2a80.up.railway.app/F' → *Respect sent to CRUD Lord*
 
 ### Example curl Commands
 
