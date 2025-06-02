@@ -23,8 +23,8 @@ uvicorn main:app --reload
 ```
 5. Open your browser or terminal and try:
 
-- `http://127.0.0.1:8000/` → *Press F to pay respect*  
-- `http://127.0.0.1:8000/F` → *Respect sent to CRUD Lord*
+- `https://f-production-2a80.up.railway.app` → *Press F to pay respect*  
+- `https://f-production-2a80.up.railway.app/F` → *Respect sent to CRUD Lord*
 
 ### Example curl Commands
 
