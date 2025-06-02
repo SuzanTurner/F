@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse
+import uvicorn
 
 app = FastAPI()
 
@@ -20,3 +21,6 @@ async def bro_press_f(anything_else: str):
         status_code=400,
         content={"message": "bro press F"}
     )
+    
+if __name__ == "__main__":
+    uvicorn.run(app, host = "127.0.0.1", port = 8080)
