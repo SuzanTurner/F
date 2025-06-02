@@ -1,4 +1,4 @@
-# Press F to Pay Respect API 💀
+# [Press F to Pay Respect API 💀](f-production-2a80.up.railway.app)
 
 ## What’s This?
 Press F to pay respect
