@@ -1,7 +1,7 @@
-## Press F to Pay Respect API 💀
+# Press F to Pay Respect API 💀
 
-# What’s This?
-Bro just press F
+## What’s This?
+Press F to pay respect
 
 ## Endpoints
 
@@ -11,7 +11,7 @@ Bro just press F
 | `/F`     | GET    | Returns the official *Respect sent*  |
 
 
-# How to Run Locally
+## How to Run Locally
 1. Clone the repo
 2. Install dependencies:
 ```
@@ -34,5 +34,5 @@ curl http://127.0.0.1:8000/F               # "Respect sent!"
 curl http://127.0.0.1:8000/anything_else   # "bro press F"
 ```
 
-# Author
+## Author
 👑 CRUD Lord — Yadhnika Wakde
