@@ -12,7 +12,7 @@ app = FastAPI()
 models.Base.metadata.create_all(engine)
 
 @app.post("/F")
-async def send_respect(request : schemas.Respect,  db : Session = Depends(get_db)):
+async def send_respect(request : schemas.respect,  db : Session = Depends(get_db)):
     new_user = models.respect(ip = request.ip, country = request.country, state = request.state, timestamp = request.timestamp)
     db.add(new_user)
     db.commit()
