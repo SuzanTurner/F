@@ -1,12 +1,14 @@
 from pydantic import BaseModel
-import datetime
+from datetime import datetime
 
 class respect(BaseModel):
-    id: int
-    ip : int
+    ip : str
     country : str
     state : str
-    timestamp : datetime.datetime
+    timestamp : datetime
     
     class Config:
         orm_mode = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
