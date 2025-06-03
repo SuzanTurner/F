@@ -18,7 +18,7 @@ A fun but structured backend application built with **FastAPI**, **PostgresSQL**
 ## 🧠 Tech Stack
 
 - **Backend**: FastAPI
-- **Database**: SQLite (with SQLAlchemy ORM)
+- **Database**: PostgreSQL
 - **IP Geolocation API**: [ipstack.com](https://ipstack.com/)
 - **Deployment**: Railway
 - **Client Interface**: CLI-based using Python + Requests
