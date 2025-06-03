@@ -36,28 +36,22 @@ A fun but structured backend application built with **FastAPI**, **PostgresSQL**
 
 ## 📂 Project Structure
 
+```
 project/
 │
-├── main.py # FastAPI app (handles routes and DB ops)
-├── user.py # CLI interface that fetches IP & sends data
-├── cli.py # Optional alternate CLI
-├── models.py # SQLAlchemy ORM model
-├── schemas.py # Pydantic schema
-├── db.py # DB setup & session manager
-├── .env # Stores API keys & base URLs
-├── requirements.txt # Python deps
-└── README.md # You're reading this 👀
-
-## 🔐 .env Configuration
-
-Create a `.env` file in the root with the following:
-
-```env
-API_KEY=your_ipstack_api_key
-API_URL=http://api.ipstack.com/check
-FASTAPI_URL=http://yourdomain.com/F
-BASE_URL=http://yourdomain.com
+├── main.py 
+├── user.py 
+├── cli.py 
+├── models.py 
+├── schemas.py 
+├── db.py 
+├── .env 
+├── requirements.txt 
+└── README.md 
 ```
+
+
+
 
 ## Sample Response
 ```
