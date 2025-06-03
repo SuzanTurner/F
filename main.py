@@ -97,4 +97,4 @@ async def bro_press_f(anything_else: str):
     
 if __name__ == "__main__":
     logger.info("Starting application...")
-    uvicorn.run(app, host = "0.0.0.0", port = 8080)
+    uvicorn.run(app, host = "0.0.0.0", port = 8000)
