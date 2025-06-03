@@ -22,26 +22,18 @@ except SQLAlchemyError as e:
     raise
 
 @app.post("/F")
-async def send_respect(request : Request,  db : Session = Depends(get_db)):
-    try:
-        new_user = models.respect(
-            ip = ip,
-            country = country,
-            state = state,
-            timestamp = timestamp
-        )
-        db.add(new_user)
-        db.commit()
-        db.refresh(new_user)
-        logger.info(f"Successfully recorded respect from {ip}")
-        return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
-    except SQLAlchemyError as e:
-        db.rollback()
-        logger.error(f"Database error: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
-    except Exception as e:
-        logger.error(f"Unexpected error: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")    
+async def send_respect(request : schemas.respect,  db : Session = Depends(get_db)):
+    print("🔥 POST BODY RECEIVED:", request.dict())
+    new_user = models.respect(
+        ip = request.ip,
+        country = request.country,
+        state = request.state,
+        timestamp = request.timestamp
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"message": f"User with IP Address {request.ip} from {request.country}, {request.state} sent respect at {request.timestamp}"}
     
 @app.get("/F")
 async def send_respect_from_browser(request: Request, db: Session = Depends(get_db)):
