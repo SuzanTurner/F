@@ -22,20 +22,19 @@ except SQLAlchemyError as e:
     raise
 
 @app.post("/F")
-async def send_respect(request : schemas.respect,  db : Session = Depends(get_db)):
+async def send_respect(request : Request,  db : Session = Depends(get_db)):
     try:
-        logger.info(f"Received respect request from IP: {request.ip}")
         new_user = models.respect(
-            ip = request.ip,
-            country = request.country,
-            state = request.state,
-            timestamp = request.timestamp
+            ip = ip,
+            country = country,
+            state = state,
+            timestamp = timestamp
         )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
-        logger.info(f"Successfully recorded respect from {request.ip}")
-        return {"message": f"User with IP Address {request.ip} from {request.country}, {request.state} sent respect at {request.timestamp}"}
+        logger.info(f"Successfully recorded respect from {ip}")
+        return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
     except SQLAlchemyError as e:
         db.rollback()
         logger.error(f"Database error: {str(e)}")

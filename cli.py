@@ -29,40 +29,50 @@ ip = data.get("ip")
 country = data.get("country")
 state = data.get("region")
 
-# print("\n--- Geolocation Info ---")
-'''print(json.dumps({
+print("\n--- Geolocation Info ---")
+print(json.dumps({
     "ip": ip,
     "country": country,
     "state": state
-}, indent=2))'''
+}, indent=2))
 
 resp = requests.get(f"{BASE_URL}")
 print(json.dumps(resp.json(), indent=2))
 
-while True:
-    inp = input("Press F to pay respect: ").strip()
-    # timestamp = datetime.datetime.now(datetime.UTC).isoformat()
-
-    india = pytz.timezone("Asia/Kolkata")
-    ist_time = datetime.now(india)
-
-    day = ist_time.day
-    if 4 <= day <= 20 or 24 <= day <= 30:
-        suffix = "th"
-    else:
-        suffix = ["st", "nd", "rd"][day % 10 - 1]
-
-    month = ist_time.strftime("%B")  
-
-    hour_24 = ist_time.hour
-    hour_12 = hour_24 % 12 or 12        
-    minute = ist_time.minute
-
-    ampm = "pm" if hour_24 >= 12 else "am"
-
-    timestamp = f"{day}{suffix} {month} {hour_12}:{minute:02d} {ampm}"
-            
+while True: 
+    inp = input("Press F to pay respect: ").strip()      
+    
     if inp == 'F':
+
+        india = pytz.timezone("Asia/Kolkata")
+        ist_time = datetime.now(india)
+
+        day = ist_time.day
+        if 4 <= day <= 20 or 24 <= day <= 30:
+            suffix = "th"
+        else:
+            suffix = ["st", "nd", "rd"][day % 10 - 1]
+
+        month = ist_time.strftime("%B")  
+
+        hour_24 = ist_time.hour
+        hour_12 = hour_24 % 12 or 12        
+        minute = ist_time.minute
+
+        ampm = "pm" if hour_24 >= 12 else "am"
+
+        timestamp = f"{day}{suffix} {month} {hour_12}:{minute:02d} {ampm}"
+        
+        ip = data.get("ip")
+        country = data.get("country")
+        state = data.get("region")
+        
+        print("Sending respect with:", {
+        "ip": ip,
+    "country": country,
+    "state": state,
+    "timestamp": timestamp
+})
         try:
             resp = requests.post(
                 f"{BASE_URL}/F",
