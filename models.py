@@ -1,5 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
-import datetime
+from sqlalchemy import Column, Integer, String
 from db import Base
 
 class respect(Base):
@@ -9,5 +8,5 @@ class respect(Base):
     ip = Column(String, nullable = False)
     country = Column(String, nullable = False)
     state = Column(String, nullable = False)
-    timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+    timestamp = Column(String, nullable = False)
     

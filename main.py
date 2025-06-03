@@ -35,7 +35,7 @@ async def send_respect(request : schemas.respect,  db : Session = Depends(get_db
         db.commit()
         db.refresh(new_user)
         logger.info(f"Successfully recorded respect from {request.ip}")
-        return {"message": f"User with IP Address {request.ip} from {request.country} {request.state} sent respect at {request.timestamp}"}
+        return {"message": f"User with IP Address {request.ip} from {request.country}, {request.state} sent respect at {request.timestamp}"}
     except SQLAlchemyError as e:
         db.rollback()
         logger.error(f"Database error: {str(e)}")
@@ -57,7 +57,7 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
         db.commit()
         db.refresh(new_user)
 
-        return {"message": f"User with IP Address {ip} from {country} {state} sent respect at {timestamp}"}
+        return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
     except Exception as e:
         logger.error(f"Auto GET /F error: {str(e)}")
         raise HTTPException(status_code=500, detail="Could not pay respect")
@@ -78,6 +78,7 @@ async def root():
             "message": "Press F to pay respect"
         }
     ) 
+    
 @app.get("/log")
 async def view_log(db : Session = Depends(get_db)):
     try:
