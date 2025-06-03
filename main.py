@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
 from db import engine, get_db
 from sqlalchemy.orm import Session
@@ -7,8 +7,8 @@ import schemas
 import uvicorn
 from sqlalchemy.exc import SQLAlchemyError
 import logging
+from user import ip, country, state, timestamp
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,26 @@ async def send_respect(request : schemas.respect,  db : Session = Depends(get_db
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
     except Exception as e:
         logger.error(f"Unexpected error: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")    
+    
+@app.get("/F")
+async def send_respect_from_browser(request: Request, db: Session = Depends(get_db)):
+    try:
+        new_user = models.respect(
+            ip=ip,
+            country=country,
+            state=state,
+            timestamp=timestamp
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+
+        return {"message": f"User with IP Address {ip} from {country} {state} sent respect at {timestamp}"}
+    except Exception as e:
+        logger.error(f"Auto GET /F error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Could not pay respect")
+
 
 @app.get("/f")
 async def send_respect():
@@ -59,14 +78,6 @@ async def root():
             "message": "Press F to pay respect"
         }
     ) 
-
-@app.get("/{anything_else}")
-async def bro_press_f(anything_else: str):
-    return JSONResponse(
-        status_code=400,
-        content={"message": "bro press F"}
-    )
-    
 @app.get("/log")
 async def view_log(db : Session = Depends(get_db)):
     try:
@@ -75,6 +86,14 @@ async def view_log(db : Session = Depends(get_db)):
     except SQLAlchemyError as e:
         logger.error(f"Error fetching logs: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error fetching logs: {str(e)}")
+
+@app.get("/{anything_else}")
+async def bro_press_f(anything_else: str):
+    return JSONResponse(
+        status_code=400,
+        content={"message": "bro press F"}
+    )
+    
     
 if __name__ == "__main__":
     logger.info("Starting application...")
