@@ -5,7 +5,7 @@ iwr https://raw.githubusercontent.com/SuzanTurner/F/main/cli.py -OutFile temp_cl
 
 # 🪦 Press F to Pay Respect - FastAPI App
 
-A fun but structured backend application built with **FastAPI**, **SQLite**, and **IP-based geolocation tracking**, where users can "press F" to pay their respects. Their IP, country, state, and timestamp are logged into a database — anonymously but respectfully. 🫡
+A fun but structured backend application built with **FastAPI**, **PostgresSQL**, and **IP-based geolocation tracking**, where users can "press F" to pay their respects. Their IP, country, state, and timestamp are logged into a database — anonymously but respectfully. 🫡
 
 ## 📜 Features
 
