@@ -12,7 +12,7 @@ dotenv.load_dotenv()
 # API_URL = os.getenv("API_URL")
 
 BASE_URL = os.getenv("BASE_URL", "http://f-production-2a80.up.railway.app")
-API_KEY = os.getenv("API_KEY", "your_real_ipstack_key")
+API_KEY = os.getenv("API_KEY", "641549f1e6dc09ff8ec7f3aa292d8e9a")
 API_URL = os.getenv("API_URL", "http://api.ipstack.com/check")
 # print(BASE_URL)
 
