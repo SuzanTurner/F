@@ -96,5 +96,8 @@ python cli.py
 ## 🤝 Contributions
 Pull requests are welcome, but respectfully
 
+---
+
+### Author - Yadhnika Wakde
 
 
