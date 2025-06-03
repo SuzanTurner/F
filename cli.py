@@ -7,9 +7,13 @@ import datetime
 # from user import ip, country, state, timestamp
 
 dotenv.load_dotenv()
-BASE_URL = os.getenv("BASE_URL")
-API_KEY = os.getenv("API_KEY")
-API_URL = os.getenv("API_URL")
+# BASE_URL = os.getenv("BASE_URL")
+# API_KEY = os.getenv("API_KEY")
+# API_URL = os.getenv("API_URL")
+
+BASE_URL = os.getenv("BASE_URL", "https://your-railway-app.up.railway.app")
+API_KEY = os.getenv("API_KEY", "your_real_ipstack_key")
+API_URL = os.getenv("API_URL", "http://api.ipstack.com/check")
 # print(BASE_URL)
 
 parameters = {"access_key" : API_KEY, }
