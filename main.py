@@ -8,6 +8,7 @@ import schemas
 import uvicorn
 from sqlalchemy.exc import SQLAlchemyError
 import logging
+import os
 # from user import ip, country, state, timestamp
 # use uvicorn's logger for visibility
 
@@ -67,7 +68,6 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
     db.refresh(new_user)
 
     return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
-'''
 
 @app.get("/F")
 async def send_respect_from_browser(db: Session = Depends(get_db)):
@@ -112,6 +112,7 @@ async def send_respect_from_browser(db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
+'''
 
 @app.get("/f")
 async def send_respect():
@@ -157,4 +158,5 @@ async def bro_press_f(anything_else: str):
 
 if __name__ == "__main__":
     logger.info("Starting application...")
-    uvicorn.run("main:app", host = "0.0.0.0", port = 8000, reload = False)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)

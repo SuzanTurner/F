@@ -6,6 +6,3 @@ class respect(BaseModel):
     state : str
     timestamp : str
     
-    class Config:
-        orm_mode = True
-        

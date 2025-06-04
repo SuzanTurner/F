@@ -80,6 +80,7 @@ while True:
         try:
             resp = requests.post(
                 f"{BASE_URL}/F",
+                headers={"Content-Type": "application/json"},
                 json={
                     "ip": ip,
                     "country": country,
