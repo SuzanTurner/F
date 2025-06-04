@@ -77,7 +77,7 @@ while True:
     "timestamp": timestamp
 })
 '''
-        try:
+        '''
             resp = requests.post(
                 f"{BASE_URL}/F",
                 headers={"Content-Type": "application/json"},
@@ -96,6 +96,28 @@ while True:
             if hasattr(e.response, 'text'):
                 print("Server response:", e.response.text)
             break
+            '''
+            
+        payload = {
+            "ip": ip,
+            "country": country,
+            "state": state,
+            "timestamp": timestamp
+        }
+
+# Convert to JSON string explicitly for extra safety
+        json_payload = json.dumps(payload)
+
+        resp = requests.post(
+            f"{BASE_URL}/F",
+            headers={"Content-Type": "application/json"},
+            data=json_payload  
+        )
+
+        resp.raise_for_status()
+        print(json.dumps(resp.json(), indent=2))
+        break
+        
     elif inp == 'f':
         resp = requests.get(f"{BASE_URL}/f")
         print(json.dumps(resp.json(), indent=2))
