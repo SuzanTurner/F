@@ -29,6 +29,7 @@ ip = data.get("ip")
 country = data.get("country")
 state = data.get("region")
 
+'''
 print("\n--- Geolocation Info ---")
 print(json.dumps({
     "ip": ip,
@@ -36,6 +37,7 @@ print(json.dumps({
     "state": state
 }, indent=2))
 
+'''
 resp = requests.get(f"{BASE_URL}")
 print(json.dumps(resp.json(), indent=2))
 
@@ -67,12 +69,14 @@ while True:
         country = data.get("country")
         state = data.get("region")
         
+        '''
         print("Sending respect with:", {
         "ip": ip,
     "country": country,
     "state": state,
     "timestamp": timestamp
 })
+'''
         try:
             resp = requests.post(
                 f"{BASE_URL}/F",

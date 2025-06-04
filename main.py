@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from db import engine, get_db
 from sqlalchemy.orm import Session
 import models
@@ -8,11 +9,22 @@ import uvicorn
 from sqlalchemy.exc import SQLAlchemyError
 import logging
 from user import ip, country, state, timestamp
+ # use uvicorn's logger for visibility
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Or your domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 try:
     models.Base.metadata.create_all(engine)
@@ -21,9 +33,13 @@ except SQLAlchemyError as e:
     logger.error(f"Error creating database tables: {e}")
     raise
 
+logger.info("🚀 App just started on Railway!")
+
 @app.post("/F")
 async def send_respect(request : schemas.respect,  db : Session = Depends(get_db)):
+    logger.info(f"🔥 POST BODY RECEIVED: {request.dict()}")
     print("🔥 POST BODY RECEIVED:", request.dict())
+
     new_user = models.respect(
         ip = request.ip,
         country = request.country,
@@ -37,21 +53,21 @@ async def send_respect(request : schemas.respect,  db : Session = Depends(get_db
     
 @app.get("/F")
 async def send_respect_from_browser(request: Request, db: Session = Depends(get_db)):
-    try:
-        new_user = models.respect(
-            ip=ip,
-            country=country,
-            state=state,
-            timestamp=timestamp
-        )
-        db.add(new_user)
-        db.commit()
-        db.refresh(new_user)
+    logger.info(f"🔥 GET BODY RECEIVED: {Request}")
+    print("🔥 GET BODY RECEIVED:", Request)
+    
+    new_user = models.respect(
+        ip=ip,
+        country=country,
+        state=state,
+        timestamp=timestamp
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
 
-        return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
-    except Exception as e:
-        logger.error(f"Auto GET /F error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Could not pay respect")
+    return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
+
 
 
 @app.get("/f")
@@ -86,7 +102,11 @@ async def bro_press_f(anything_else: str):
         content={"message": "bro press F"}
     )
     
-    
+@app.get("/debug")
+def debug():
+    logger.info("Debug route was hit!")
+    return {"msg": "Logged successfully!"}
+
 if __name__ == "__main__":
     logger.info("Starting application...")
-    uvicorn.run(app, host = "0.0.0.0", port = 8000)
+    uvicorn.run("main:app", host = "0.0.0.0", port = 8000, reload = False)
