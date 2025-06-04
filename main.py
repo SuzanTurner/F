@@ -9,6 +9,9 @@ import uvicorn
 from sqlalchemy.exc import SQLAlchemyError
 import logging
 import os
+from datetime import datetime
+import pytz
+import requests
 # from user import ip, country, state, timestamp
 # use uvicorn's logger for visibility
 
@@ -67,9 +70,49 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
     db.commit()
     db.refresh(new_user)
     '''
+    TOKEN = "b333f695b06323"
+    API_URL = "https://ipinfo.io/json" 
+    parameters = {"token": TOKEN}
 
-    # return {"message": f"User with IP Address {Request.ip} from {Request.country}, {Request.state} sent respect at {Request.timestamp}"}
+    resp = requests.get(url=API_URL, params=parameters)
+    data = resp.json()
+
+    ip = data.get("ip")
+    country = data.get("country")
+    state = data.get("region")
+    
+    india = pytz.timezone("Asia/Kolkata")
+    ist_time = datetime.now(india)
+
+    day = ist_time.day
+    if 4 <= day <= 20 or 24 <= day <= 30:
+        suffix = "th"
+    else:
+        suffix = ["st", "nd", "rd"][day % 10 - 1]
+
+    month = ist_time.strftime("%B")  
+
+    hour_24 = ist_time.hour
+    hour_12 = hour_24 % 12 or 12        
+    minute = ist_time.minute
+
+    ampm = "pm" if hour_24 >= 12 else "am"
+
+    timestamp = f"{day}{suffix} {month} {hour_12}:{minute:02d} {ampm}"
+    
+    new_user = models.respect(
+        ip=ip,
+        country=country,
+        state=state,
+        timestamp=timestamp
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
     return {"message" : "Respect Sent!"}
+
 '''
 @app.get("/F")
 async def send_respect_from_browser(db: Session = Depends(get_db)):

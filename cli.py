@@ -70,52 +70,27 @@ while True:
         
         '''
         print("Sending respect with:", {
-        "ip": ip,
-    "country": country,
-    "state": state,
-    "timestamp": timestamp
-})
-'''
-        '''
-            resp = requests.post(
-                f"{BASE_URL}/F",
-                headers={"Content-Type": "application/json"},
-                json={
-                    "ip": ip,
-                    "country": country,
-                    "state": state,
-                    "timestamp": timestamp
-                }
-            )
-            resp.raise_for_status()
-            print(json.dumps(resp.json(), indent=2))
-            break
-        except requests.exceptions.RequestException as e:
-            print(f"Error making request: {e}")
-            if hasattr(e.response, 'text'):
-                print("Server response:", e.response.text)
-            break
-            '''
-            
-        payload = {
             "ip": ip,
             "country": country,
             "state": state,
             "timestamp": timestamp
-        }
-
+            })
+            
+        '''
         resp = requests.post(
             f"{BASE_URL}/F",
             headers={"Content-Type": "application/json"},
-            json=payload  
+            json={
+                "ip": ip,
+                "country": country,
+                "state": state,
+                "timestamp": timestamp
+            }
         )
-        
-        # print("\nSending POST request with:")
-        # print(json.dumps(payload, indent=2))
-
         resp.raise_for_status()
         print(json.dumps(resp.json(), indent=2))
         break
+            
         
     elif inp == 'f':
         resp = requests.get(f"{BASE_URL}/f")
