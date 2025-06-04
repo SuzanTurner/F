@@ -70,59 +70,61 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
     db.commit()
     db.refresh(new_user)
     '''
-    
-    forwarded = request.headers.get("X-Forwarded-For")
-    ip = forwarded.split(",")[0].strip() if forwarded else request.client.host
+    try: 
+        forwarded = request.headers.get("X-Forwarded-For")
+        ip = forwarded.split(",")[0].strip() if forwarded else request.client.host
 
-    TOKEN = "b333f695b06323"
-    API_URL = "https://ipinfo.io/json" 
-    parameters = {"token": TOKEN}
+        TOKEN = "b333f695b06323"
+        API_URL = "https://ipinfo.io/json" 
+        parameters = {"token": TOKEN}
 
-    resp = requests.get(url=API_URL, params=parameters)
-    data = resp.json()
+        resp = requests.get(url=API_URL, params=parameters)
+        data = resp.json()
 
-    TOKEN = "b333f695b06323"
-    API_URL = f"https://ipinfo.io/{ip}/json"
-    
-    resp = requests.get(API_URL, params={"token": TOKEN})
-    data = resp.json()
+        TOKEN = "b333f695b06323"
+        API_URL = f"https://ipinfo.io/{ip}/json"
+        
+        resp = requests.get(API_URL, params={"token": TOKEN})
+        data = resp.json()
 
-    country = data.get("country")
-    state = data.get("region")
-    
-    india = pytz.timezone("Asia/Kolkata")
-    ist_time = datetime.now(india)
+        country = data.get("country")
+        state = data.get("region")
+        
+        india = pytz.timezone("Asia/Kolkata")
+        ist_time = datetime.now(india)
 
-    day = ist_time.day
-    if 4 <= day <= 20 or 24 <= day <= 30:
-        suffix = "th"
-    else:
-        suffix = ["st", "nd", "rd"][day % 10 - 1]
+        day = ist_time.day
+        if 4 <= day <= 20 or 24 <= day <= 30:
+            suffix = "th"
+        else:
+            suffix = ["st", "nd", "rd"][day % 10 - 1]
 
-    month = ist_time.strftime("%B")  
+        month = ist_time.strftime("%B")  
 
-    hour_24 = ist_time.hour
-    hour_12 = hour_24 % 12 or 12        
-    minute = ist_time.minute
+        hour_24 = ist_time.hour
+        hour_12 = hour_24 % 12 or 12        
+        minute = ist_time.minute
 
-    ampm = "pm" if hour_24 >= 12 else "am"
+        ampm = "pm" if hour_24 >= 12 else "am"
 
-    timestamp = f"{day}{suffix} {month} {hour_12}:{minute:02d} {ampm}"
-    
-    logger.info(ip, country, state, timestamp)
-    
-    new_user = models.respect(
-        ip=ip,
-        country=country,
-        state=state,
-        timestamp=timestamp
-    )
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+        timestamp = f"{day}{suffix} {month} {hour_12}:{minute:02d} {ampm}"
+        
+        logger.info(ip, country, state, timestamp)
+        
+        new_user = models.respect(
+            ip=ip,
+            country=country,
+            state=state,
+            timestamp=timestamp
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
 
-    return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
-    # return {"message" : "Respect Sent!"}
+        return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
+        # return {"message" : "Respect Sent!"}
+    except Exception as e:
+        return {"Couldn't send respect... "}
 
 '''
 @app.get("/F")
