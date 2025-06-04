@@ -70,6 +70,10 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
     db.commit()
     db.refresh(new_user)
     '''
+    
+    forwarded = request.headers.get("X-Forwarded-For")
+    ip = forwarded.split(",")[0].strip() if forwarded else request.client.host
+
     TOKEN = "b333f695b06323"
     API_URL = "https://ipinfo.io/json" 
     parameters = {"token": TOKEN}
@@ -77,7 +81,12 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
     resp = requests.get(url=API_URL, params=parameters)
     data = resp.json()
 
-    ip = data.get("ip")
+    TOKEN = "b333f695b06323"
+    API_URL = f"https://ipinfo.io/{ip}/json"
+    
+    resp = requests.get(API_URL, params={"token": TOKEN})
+    data = resp.json()
+
     country = data.get("country")
     state = data.get("region")
     
@@ -191,6 +200,16 @@ async def view_log(db : Session = Depends(get_db)):
     except SQLAlchemyError as e:
         logger.error(f"Error fetching logs: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error fetching logs: {str(e)}")
+    
+@app.get("/headers")
+async def get_headers(request: Request):
+    return dict(request.headers)
+
+@app.get("/check")
+async def get_ip(request: Request):
+    forwarded = request.headers.get("X-Forwarded-For")
+    ip = forwarded.split(",")[0].strip() if forwarded else request.client.host
+    return {"ip": ip}
 
 @app.get("/{anything_else}")
 async def bro_press_f(anything_else: str):
@@ -202,7 +221,7 @@ async def bro_press_f(anything_else: str):
         status_code=400,
         content={"message": "bro press F"}
     )
-
+    
 if __name__ == "__main__":
     logger.info("Starting application...")
     port = int(os.getenv("PORT", 8000))
