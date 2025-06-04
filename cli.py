@@ -12,8 +12,8 @@ dotenv.load_dotenv()
 # API_KEY = os.getenv("API_KEY")
 # API_URL = os.getenv("API_URL")
 
-BASE_URL = "http://f-production-2a80.up.railway.app"
-# BASE_URL = "http://localhost:8000"
+# BASE_URL = "http://f-production-2a80.up.railway.app"
+BASE_URL = "http://localhost:8000"
 # API_KEY = "641549f1e6dc09ff8ec7f3aa292d8e9a"
 # API_URL = "http://api.ipstack.com/check"
 # print(BASE_URL)
@@ -45,7 +45,6 @@ while True:
     inp = input("Press F to pay respect: ").strip()      
     
     if inp == 'F':
-
         india = pytz.timezone("Asia/Kolkata")
         ist_time = datetime.now(india)
 
@@ -105,14 +104,14 @@ while True:
             "timestamp": timestamp
         }
 
-# Convert to JSON string explicitly for extra safety
-        json_payload = json.dumps(payload)
-
         resp = requests.post(
             f"{BASE_URL}/F",
             headers={"Content-Type": "application/json"},
-            data=json_payload  
+            json=payload  
         )
+        
+        # print("\nSending POST request with:")
+        # print(json.dumps(payload, indent=2))
 
         resp.raise_for_status()
         print(json.dumps(resp.json(), indent=2))

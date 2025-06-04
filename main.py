@@ -23,7 +23,7 @@ app.add_middleware(
     allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*", "Content-Type", "application/json"]
 )
 
 try:
@@ -37,7 +37,7 @@ logger.info("🚀 App just started on Railway!")
 
 @app.post("/F")
 async def send_respect(request : schemas.respect,  db : Session = Depends(get_db)):
-    logger.info(f"🔥 POST BODY RECEIVED: {request.dict()}")
+    logger.info(f"🔥 POST BODY RECEIVED: {request.model_dump()}")
     print("🔥 POST BODY RECEIVED:", request.dict())
 
     new_user = models.respect(
