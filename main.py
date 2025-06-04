@@ -100,6 +100,8 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
 
     timestamp = f"{day}{suffix} {month} {hour_12}:{minute:02d} {ampm}"
     
+    logger.info(ip, country, state, timestamp)
+    
     new_user = models.respect(
         ip=ip,
         country=country,
@@ -111,7 +113,7 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
     db.refresh(new_user)
 
     return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
-    return {"message" : "Respect Sent!"}
+    # return {"message" : "Respect Sent!"}
 
 '''
 @app.get("/F")
