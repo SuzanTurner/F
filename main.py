@@ -12,7 +12,7 @@ import os
 from datetime import datetime
 import pytz
 import requests
-import platform
+
 
 # from user import ip, country, state, timestamp
 # use uvicorn's logger for visibility
@@ -41,10 +41,21 @@ except SQLAlchemyError as e:
 logger.info("🚀 App just started on Railway!")
 
 @app.post("/F")
-async def send_respect(request : schemas.respect,  db : Session = Depends(get_db)):
+async def send_respect(request : schemas.respect, request_obj: Request,  db : Session = Depends(get_db)):
     logger.info(f"🔥 POST BODY RECEIVED: {request.model_dump()}")
     print("🔥 POST BODY RECEIVED:", request.dict())
     
+    headers = request_obj.headers
+    os = headers.get("sec-ch-ua-platform") or headers.get("user-agent")
+
+    if os and "Windows" in os:
+        os_name = "Windows"
+    elif os and "Linux" in os:
+        os_name = "Linux"
+    elif os and "Mac" in os:
+        os_name = "macOS"
+    else:
+        os_name = "Unknown"
 
     new_user = models.respect(
         ip = request.ip,
@@ -56,7 +67,7 @@ async def send_respect(request : schemas.respect,  db : Session = Depends(get_db
     db.commit()
     db.refresh(new_user)
     
-    return {"message": f" {platform.system()} User with IP Address {request.ip} from {request.country}, {request.state} sent respect at {request.timestamp}"}
+    return {"message": f" {os_name} User with IP Address {request.ip} from {request.country}, {request.state} sent respect at {request.timestamp}"}
         # return {"message" : "Respect Sent!"}
     
         
@@ -65,7 +76,18 @@ async def send_respect(request : schemas.respect,  db : Session = Depends(get_db
 async def send_respect_from_browser(request: Request, db: Session = Depends(get_db)):
     logger.info(f"🔥 GET BODY RECEIVED: {request}")
     print("🔥 GET BODY RECEIVED:", request)
-    print(platform.system()) 
+    
+    headers = request.headers
+    os = headers.get("sec-ch-ua-platform") or headers.get("user-agent")
+
+    if os and "Windows" in os:
+        os_name = "Windows"
+    elif os and "Linux" in os:
+        os_name = "Linux"
+    elif os and "Mac" in os:
+        os_name = "macOS"
+    else:
+        os_name = "Unknown"
     '''
     new_user = models.respect(
         ip=request.ip,
@@ -128,7 +150,7 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
         db.commit()
         db.refresh(new_user)
 
-        return {"message": f" {platform.system()} User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
+        return {"message": f" {os_name} User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
         # return {"message" : "Respect Sent!"}
     except Exception as e:
         return {"Couldn't send respect... "}
