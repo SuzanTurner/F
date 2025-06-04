@@ -58,10 +58,10 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
     print("🔥 GET BODY RECEIVED:", request)
     
     new_user = models.respect(
-        ip=Request.ip,
-        country=Request.country,
-        state=Request.state,
-        timestamp=Request.timestamp
+        ip=request.ip,
+        country=request.country,
+        state=request.state,
+        timestamp=request.timestamp
     )
     db.add(new_user)
     db.commit()
