@@ -56,7 +56,7 @@ async def send_respect(request : schemas.respect,  db : Session = Depends(get_db
 async def send_respect_from_browser(request: Request, db: Session = Depends(get_db)):
     logger.info(f"🔥 GET BODY RECEIVED: {request}")
     print("🔥 GET BODY RECEIVED:", request)
-    
+    '''
     new_user = models.respect(
         ip=request.ip,
         country=request.country,
@@ -66,9 +66,10 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+    '''
 
-    return {"message": f"User with IP Address {Request.ip} from {Request.country}, {Request.state} sent respect at {Request.timestamp}"}
-
+    # return {"message": f"User with IP Address {Request.ip} from {Request.country}, {Request.state} sent respect at {Request.timestamp}"}
+    return {"message" : "Respect Sent!"}
 '''
 @app.get("/F")
 async def send_respect_from_browser(db: Session = Depends(get_db)):
