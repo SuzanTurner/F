@@ -12,8 +12,8 @@ dotenv.load_dotenv()
 # API_KEY = os.getenv("API_KEY")
 # API_URL = os.getenv("API_URL")
 
-# BASE_URL = "http://f-production-2a80.up.railway.app"
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://f-production-2a80.up.railway.app"
+# BASE_URL = "http://localhost:8000"
 # API_KEY = "641549f1e6dc09ff8ec7f3aa292d8e9a"
 # API_URL = "http://api.ipstack.com/check"
 # print(BASE_URL)
