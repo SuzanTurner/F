@@ -67,7 +67,7 @@ async def send_respect(request : schemas.respect, request_obj: Request,  db : Se
     db.commit()
     db.refresh(new_user)
     
-    return {"message": f" {os_name} User with IP Address {request.ip} from {request.country}, {request.state} sent respect at {request.timestamp}"}
+    return {"message": f"User with IP Address {request.ip} from {request.country}, {request.state} sent respect at {request.timestamp}"}
         # return {"message" : "Respect Sent!"}
     
         
@@ -150,7 +150,7 @@ async def send_respect_from_browser(request: Request, db: Session = Depends(get_
         db.commit()
         db.refresh(new_user)
 
-        return {"message": f" {os_name} User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
+        return {"message": f"User with IP Address {ip} from {country}, {state} sent respect at {timestamp}"}
         # return {"message" : "Respect Sent!"}
     except Exception as e:
         return {"Couldn't send respect... "}

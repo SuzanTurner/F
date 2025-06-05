@@ -16,6 +16,9 @@ fi
 
 # Activate virtual environment cross-platform
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+  echo "$ ----- "
+  echo "$ Windows User Detected"
+  echo "$ ----- "
   echo "$(timestamp) 🔥 Activating virtual environment (Windows)..."
   source venv/Scripts/activate || { echo "❌ Activation failed"; exit 1; }
 else
