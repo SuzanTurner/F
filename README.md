@@ -3,6 +3,11 @@
 iwr https://raw.githubusercontent.com/SuzanTurner/F/main/cli.py -OutFile temp_cli.py; python temp_cli.py; Remove-Item temp_cli.py
 ```
 
+# Or this in bash
+```
+curl -O https://raw.githubusercontent.com/SuzanTurner/F/main/setup.sh && bash setup.sh
+```
+
 # 🪦 Press F to Pay Respect - FastAPI App
 
 A fun but structured backend application built with **FastAPI**, **PostgresSQL**, and **IP-based geolocation tracking**, where users can "press F" to pay their respects. Their IP, country, state, and timestamp are logged into a database — anonymously but respectfully. 🫡
